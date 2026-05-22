@@ -4,6 +4,12 @@ from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 
+from auth import (
+    hash_password,
+    verify_password,
+    create_access_token
+)
+
 from models_db import (
     get_db,
     UserDB
@@ -76,8 +82,13 @@ def login_user(
             detail="Invalid username or password"
         )
 
+    access_token = create_access_token(
+        data={
+            "sub": existing_user.username
+        }
+    )
+
     return {
-        "message": "Login successful",
-        "id": existing_user.id,
-        "username": existing_user.username
+        "access_token": access_token,
+        "token_type": "bearer"
     }
