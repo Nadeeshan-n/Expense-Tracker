@@ -3,10 +3,19 @@ from pydantic import BaseModel
 
 class Expense(BaseModel):
 
-    
     title: str
     amount: float
-    Category_id: int
+    category_id: int
 
-class Catogary(BaseModel):
-    name:str
+
+class ExpenseResponse(BaseModel):
+
+    id: int
+    title: str
+    amount: float
+    category: str
+
+
+class Category(BaseModel):
+
+    name: str

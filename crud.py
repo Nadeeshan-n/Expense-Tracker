@@ -1,16 +1,15 @@
 from database import get_db_connection
-from models import Expense, Catogary
 
 #create the dtata base and insert ino expense table
-def create_expense(title, amount,Category_id):
+def create_expense(title, amount, category_id):
 
     conn = get_db_connection()
 
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO expenses (title, amount, Category_id) VALUES (?, ?, ?)",
-        (title, amount ,Category_id)
+        "INSERT INTO expenses (title, amount, category_id) VALUES (?, ?, ?)",
+        (title, amount, category_id)
     )
 
     conn.commit()
