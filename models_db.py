@@ -49,6 +49,19 @@ class CategoryDB(Base):
     name = Column(String)
 
 
+class UserDB(Base):
+
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+
+    username = Column(String, unique=True)
+
+    email = Column(String, unique=True)
+
+    hashed_password = Column(String)
+
+
 Base.metadata.create_all(bind=engine)
 
 
