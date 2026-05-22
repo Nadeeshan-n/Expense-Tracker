@@ -28,7 +28,8 @@ def add_expense(expense: Expense):
 
     create_expense(
         expense.title,
-        expense.amount
+        expense.amount,
+        expense.Category_id
     )
 
     return {

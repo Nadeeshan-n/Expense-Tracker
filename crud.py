@@ -2,15 +2,15 @@ from database import get_db_connection
 from models import Expense, Catogary
 
 #create the dtata base and insert ino expense table
-def create_expense(title, amount):
+def create_expense(title, amount,Category_id):
 
     conn = get_db_connection()
 
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO expenses (title, amount) VALUES (?, ?)",
-        (title, amount)
+        "INSERT INTO expenses (title, amount, Category_id) VALUES (?, ?, ?)",
+        (title, amount ,Category_id)
     )
 
     conn.commit()
@@ -23,13 +23,32 @@ def get_all_expenses():
 
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM expenses")
+    cursor.execute("""
+    SELECT
+        expenses.id,
+        expenses.title,
+        expenses.amount,
+        categories.name
+    FROM expenses
+    JOIN categories
+    ON expenses.category_id = categories.id
+    """)
 
     expenses = cursor.fetchall()
+    formatted_expenses = []
+
+    for expense in expenses:
+
+        formatted_expenses.append({
+            "id": expense[0],
+            "title": expense[1],
+            "amount": expense[2],
+            "category": expense[3]
+        })
 
     conn.close()
 
-    return expenses
+    return formatted_expenses
 
 #delete a row by id
 def delete_expense_by_id(expense_id):
